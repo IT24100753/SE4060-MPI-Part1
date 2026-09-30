@@ -1,0 +1,19 @@
+# Binaries
+HelloMPI
+job1
+messages1
+messaage2
+messages2
+Archer2OpenMP/hello
+
+# Object and temp files
+*.o
+Archer2OpenMP/*.o
+
+# PBS / Slurm batch log files
+*.out
+*.err
+*-[0-9]*.out
+*-[0-9]*.err
+*.o[0-9]*
+*.e[0-9]*

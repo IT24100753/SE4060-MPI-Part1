@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Slurm job options for Archer2 Supercomputer
+#SBATCH --nodes=1
+#SBATCH --tasks-per-node=4
+#SBATCH --job-name=mpi_job
+#SBATCH --time=00:01:00
+#SBATCH --output=%x-%j.out
+#SBATCH --cpus-per-task=1
+#SBATCH --partition=standard
+# Replace [budget code] below with your budget code (e.g. ta035)
+#SBATCH --account=ta035
+# Short queue for small jobs
+#SBATCH --qos=short
+#SBATCH --reservation=shortqos
+
+module --silent load epcc-job-env
+
+export OMP_NUM_THREADS=1
+
+# Use "srun" to launch the MPI executable with 4 tasks
+srun --distribution=block:block --hint=nomultithread ./messages1

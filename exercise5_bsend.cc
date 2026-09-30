@@ -20,8 +20,15 @@ int main(int argc, char *argv[])
         for (int r = 0; r < 10; r++)
             x[r] = 10 * r;
 
-        printf("Sending message to computer 3 from computer 1\n");
-        MPI_Ssend(x, 10, MPI_INT, 3, 0, MPI_COMM_WORLD);
+        int buf_size = sizeof(int) * 10 + MPI_BSEND_OVERHEAD;
+        void *buf = malloc(buf_size);
+        MPI_Buffer_attach(buf, buf_size);
+
+        printf("Sending message using Bsend to computer 3 from computer 1\n");
+        MPI_Bsend(x, 10, MPI_INT, 3, 0, MPI_COMM_WORLD);
+
+        MPI_Buffer_detach(&buf, &buf_size);
+        free(buf);
     } else if (rank == 3) {
         MPI_Recv(y, 10, MPI_INT, 1, 0, MPI_COMM_WORLD, &status);
         printf("in computer 3 the value of y is printed\n");
